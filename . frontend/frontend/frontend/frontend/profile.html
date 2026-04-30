@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head><title>Profile</title></head>
+<body>
+
+<h2>Profile</h2>
+
+<div id="nameBox"></div>
+<div id="phoneBox"></div>
+
+<h3>History</h3>
+<div id="historyList"></div>
+
+<button onclick="clearHistory()">Clear</button>
+
+<script>
+
+let user = JSON.parse(localStorage.getItem("user"));
+
+if(user){
+  nameBox.innerHTML = "Name: " + user.name;
+  phoneBox.innerHTML = "Phone: " + user.phone;
+}
+
+let history = JSON.parse(localStorage.getItem("history")) || [];
+
+let html = "";
+
+history.forEach(item=>{
+  html += `Crop: ${item.crop}<br>`;
+});
+
+historyList.innerHTML = html;
+
+function clearHistory(){
+  localStorage.removeItem("history");
+  location.reload();
+}
+
+</script>
+
+</body>
+</html>

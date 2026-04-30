@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head><title>Result</title></head>
+<body>
+
+<h2>Result</h2>
+
+<div id="output"></div>
+<button onclick="goBack()">Back</button>
+
+<script>
+
+let data = JSON.parse(localStorage.getItem("result"));
+
+let html = `
+<b>Best Crop:</b> ${data.crop}<br>
+<b>Temperature:</b> ${data.current_temp}°C<br>
+<b>Humidity:</b> ${data.current_humidity}%<br>
+<b>Duration:</b> ${data.duration}<br>
+<b>Advice:</b> ${data.advice}
+`;
+
+document.getElementById("output").innerHTML = html;
+
+// history stack
+let history = JSON.parse(localStorage.getItem("history")) || [];
+history.push(data);
+localStorage.setItem("history", JSON.stringify(history));
+
+function goBack(){
+  window.history.back();
+}
+
+</script>
+
+</body>
+</html>

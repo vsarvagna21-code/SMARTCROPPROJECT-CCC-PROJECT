@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><title>History</title></head>
+<body>
+
+<h2>History</h2>
+
+<div id="history"></div>
+
+<script>
+
+let history = JSON.parse(localStorage.getItem("history")) || [];
+
+let html="";
+
+if(history.length === 0){
+  html="No history available";
+}
+else{
+  history.forEach(h=>{
+    html+=`
+    Crop: ${h.crop}<br>
+    Temp: ${h.current_temp}°C<br><br>
+    `;
+  });
+}
+
+document.getElementById("history").innerHTML = html;
+
+</script>
+
+</body>
+</html>

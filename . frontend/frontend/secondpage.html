@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Details</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+body { margin:0; font-family:Arial; background:url("land.png") center/cover; }
+.container { width:400px; margin:40px auto; padding:20px; background:rgba(255,255,255,0.2); }
+#map { height:250px; margin-top:10px; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Crop Details</h2>
+
+<select id="soil">
+<option value="clay">Clay</option>
+<option value="sandy">Sandy</option>
+<option value="loamy">Loamy</option>
+<option value="black">Black</option>
+</select>
+
+<input id="land" placeholder="Land size">
+
+<select id="irrigation">
+<option value="high">High</option>
+<option value="medium">Medium</option>
+<option value="low">Low</option>
+</select>
+
+<div id="map"></div>
+
+<button onclick="submitData()">Submit</button>
+
+</div>
+
+<script>
+
+let selectedLat=20, selectedLon=78;
+
+var map=L.map('map').setView([20.5937,78.9629],5);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+map.on('click',e=>{
+  selectedLat=e.latlng.lat;
+  selectedLon=e.latlng.lng;
+});
+
+function submitData(){
+
+let data={
+  soil: soil.value,
+  lat: selectedLat,
+  lon: selectedLon
+};
+
+fetch("http://127.0.0.1:8000/predict",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify(data)
+})
+.then(res=>res.json())
+.then(r=>{
+  localStorage.setItem("result",JSON.stringify(r));
+  window.location.href="result.html";
+});
+
+}
+
+</script>
+
+</body>
+</html>
